@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
 using WeatherApp.Commands;
 
 namespace WeatherApp.ViewModels
@@ -27,6 +30,8 @@ namespace WeatherApp.ViewModels
 
             SaveConfigurationCommand = new DelegateCommand<string>(SaveConfiguration);
         }
+
+
 
         private void SaveConfiguration(string obj)
         {

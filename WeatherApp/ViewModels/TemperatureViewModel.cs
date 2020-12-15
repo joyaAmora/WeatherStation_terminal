@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 using WeatherApp.Commands;
 using WeatherApp.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WeatherApp.ViewModels
 {
@@ -16,6 +19,8 @@ namespace WeatherApp.ViewModels
         public ITemperatureService TemperatureService { get; private set; }
 
         public DelegateCommand<string> GetTempCommand { get; set; }
+
+
 
         public TemperatureModel CurrentTemp 
         { 
@@ -75,8 +80,8 @@ namespace WeatherApp.ViewModels
             Temperatures = new ObservableCollection<TemperatureModel>();
 
             GetTempCommand = new DelegateCommand<string>(GetTemp, CanGetTemp);
+            
         }
-
 
         public bool CanGetTemp(string obj)
         {
@@ -96,7 +101,7 @@ namespace WeatherApp.ViewModels
 
             if (CurrentTemp != null)
             {
-                /// TODO 01 : Insérer la température à la position 0 de la collection
+                /// TODO 01 FAIT : Insérer la température à la position 0 de la collection
                 /// Description détaillée :
                 /// À chaque fois que l'on clique sur le bouton "Get Data". On veut 
                 /// insérer la température à la position 0 de la collection.
@@ -104,7 +109,11 @@ namespace WeatherApp.ViewModels
                 /// dernière température insérée dans la liste est différente
                 /// que celle que l'on vient de récupérer.
                 /// Utiliser la méthode Insert de la collection
-
+               if (currentTemp.City != Temperatures[0].City && currentTemp.DateTime != Temperatures[0].DateTime)
+                {
+                    Temperatures.Insert(0, currentTemp);
+                }
+                
                 Debug.WriteLine(CurrentTemp);
             }
         }
